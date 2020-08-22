@@ -47,32 +47,51 @@
 
 // startBtn.onclick = countdown;
 
-
+//creates an array of question objects.
 var questions = [
     {
         // First Question
-        prompt: ,
-        answer: 
+        prompt: "Which of the following is in charge of the styling of your webpage?",
+        answer: 'a'
     },
     {
         // Second Quesiton
-        prompt: ,
-        answer: 
+        prompt: "Which of the following affects the user's ability to dynamically interact with your webpage?",
+        answer: 'a'
     },
     {
         // Third Question
-        prompt: ,
-        answer:
+        prompt: "What symbol do we use to notate something as a function?",
+        answer: 'a'
     },
     {
         // Fourth Question
-        prompt: ,
-        answer: 
+        prompt: "Which is the correct way to log something to the console?",
+        answer: 'a'
     },
     {
         // Fifth Question
-        prompt: ,
-        answer:
+        prompt: "Did you have fun testing this code?",
+        answer: 'a'
     }
 ];
 var score = 0;
+var startBtnEl = document.querySelector('#start');
+
+
+var quizCycle = function() {
+    for(var i = 0; i < questions.length; i++){
+        var response = window.prompt(questions[i].prompt);
+        if (response === questions[i].answer){
+            score++;
+            alert('correct');
+        }
+        else {
+            alert('wrong');
+        }
+    }
+}
+
+alert('you got a score of ' + score);
+
+startBtnEl.onclick = quizCycle;
