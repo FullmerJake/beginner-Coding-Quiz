@@ -1,5 +1,7 @@
 
 var startBtnEl = document.querySelector('#start');
+var timerEl = document.querySelector('#countdown');
+var feedbackEl = document.querySelector('#feedback');
 var btn0El = document.querySelector('#btn0');
 var btn1El = document.querySelector('#btn1');
 var btn2El = document.querySelector('#btn2');
@@ -54,12 +56,15 @@ var questions = [
         answerTrue: 'Of Course Not'
     }
 ];
-
 var score = 0;
 var questionNumber = 0;
+var timeLeft;
 
 // Loads the First Question and possible answers to the page. 
 var firstQuestion = function() {
+    //starts timer
+    countdown();
+
     //creates a new H2 DOM element
     var question = document.createElement('div');
     //adds the prompt from the question object as HTML to the H2 element
@@ -171,17 +176,22 @@ var fifthQuestion = function() {
 
      questionNumber++;
 }
-
+// Loads highscore scene
+var loadHighScores = function(){
+    alert('This is the end scene');
+}
 // Checks if the selected answer is correct 
 var answerSelected = function(selectedBtn){
     var userAnswer = selectedBtn;
     if (userAnswer.classList.contains('correct-answer')){
-        alert('Correct')
+        feedbackEl.textContent = 'Correct!';
         score += 1;
         loadNextQuestion();
     }
     else {
-        alert('Wrong');
+        feedbackEl.textContent = 'Wrong!';
+        // wrong answer subtracts 5 seconds from the timer. 
+        timeLeft = timeLeft - 5;
         return;
     }
 }
@@ -200,15 +210,33 @@ var loadNextQuestion = function(){
         case 4:
             fifthQuestion();
         break;
+        // if there are no questions left, load end scene
+        default:
+            loadHighScores();
+        break;
     }
 }
+// Timer that counts down from 60
+function countdown() {
+    timeLeft = 60;
+  
+    // Use the `setInterval()` method to call a function to be executed every 1000 milliseconds
+    var timeInterval = setInterval(function() {
+      if (timeLeft > 0) {
+        timerEl.textContent = timeLeft + ' time remaining';
+        timeLeft--;
+      } else {
+        timerEl.textContent = '';
+        clearInterval(timeInterval);
+        //loads end scene at end of coundown
+        loadHighScores();
+      }
+    }, 1000);
+  }
 
 startBtnEl.addEventListener('click', firstQuestion);
 
 
-// create timer
-// When an answer is incorrect, subtract time from timer
-// END Event triggers when all questions are answered, or timer hits 0
 // Score Page is presented at END Event Trigger
 // Saves score to localStorage, with User Input for Initials. 
 
