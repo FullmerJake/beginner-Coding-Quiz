@@ -24,10 +24,10 @@ var questions = [
     {
         // Second Quesiton
         prompt: "Which of the following affects the user's ability to dynamically interact with your webpage?",
-        answer1: 'JavaScript',
+        answer1: 'HTML3',
         answer2: 'HTML',
         answer3: 'CSS',
-        answerTrue: 'HTML3'
+        answerTrue: 'Javascript'
     },
     {
         // Third Question
@@ -57,7 +57,6 @@ var questions = [
 
 var score = 0;
 var questionNumber = 0;
-var questionAnswerTrue;
 
 // Loads the First Question and possible answers to the page. 
 var firstQuestion = function() {
@@ -117,7 +116,7 @@ var thirdQuestion = function() {
      question.innerHTML = "<h2>" + questions[2].prompt + "</h2>";
  
      // First Answer
-     choice0El.innerHTML = questions[2].answer3;
+     choice0El.innerHTML = questions[2].answerTrue;
      btn0El.className = 'correct-answer';
      // Second Answer
      choice1El.innerHTML = questions[2].answer2;
@@ -126,11 +125,8 @@ var thirdQuestion = function() {
      choice2El.innerHTML = questions[2].answer1;
      
      // Fourth Answer
-     choice3El.innerHTML = questions[2].answerTrue;
+     choice3El.innerHTML = questions[2].answer3;
      btn3El.classList.remove('correct-answer');
- 
-     // Logs the correct answer into a variable
-     questionAnswerTrue = questions[2].answerTrue;
 
      questionNumber++;
 }
@@ -143,16 +139,14 @@ var fourthQuestion = function() {
      choice0El.innerHTML = questions[3].answer3;
      btn0El.classList.remove('correct-answer');
      // Second Answer
-     choice1El.innerHTML = questions[3].answer2;
+     choice1El.innerHTML = questions[3].answerTrue;
      btn1El.className = 'correct-answer';
      // Third Answer
      choice2El.innerHTML = questions[3].answer1;
      
      // Fourth Answer
-     choice3El.innerHTML = questions[3].answerTrue;
- 
-     // Logs the correct answer into a variable
-     questionAnswerTrue = questions[3].answerTrue;
+     choice3El.innerHTML = questions[3].answer2;
+
 
      questionNumber++;
 }
@@ -168,20 +162,17 @@ var fifthQuestion = function() {
      btn1El.classList.remove('correct-answer');
 
      // Third Answer
-     choice2El.innerHTML = questions[4].answer1;
+     choice2El.innerHTML = questions[4].answerTrue;
      btn2El.className = 'correct-answer';
 
      // Fourth Answer
-     choice3El.innerHTML = questions[4].answerTrue;
+     choice3El.innerHTML = questions[4].answer1;
  
-     // Logs the correct answer into a variable
-     questionAnswerTrue = questions[4].answerTrue;
 
      questionNumber++;
 }
 
-
-// Creates a variable on which btn was pressed by the user. 
+// Checks if the selected answer is correct 
 var answerSelected = function(selectedBtn){
     var userAnswer = selectedBtn;
     if (userAnswer.classList.contains('correct-answer')){
@@ -194,6 +185,7 @@ var answerSelected = function(selectedBtn){
         return;
     }
 }
+// checks the Question Number and proceeds to the next question.
 var loadNextQuestion = function(){
     switch(questionNumber){
         case 1:
@@ -214,8 +206,11 @@ var loadNextQuestion = function(){
 startBtnEl.addEventListener('click', firstQuestion);
 
 
-// 1. Create an Array of question objects
-// 2. Display the Question and possible Answers in buttons
-// 3. onClick will either return right or wrong, proceed to next question, and tally score
-// 4. Ending one function then calls the next function
+// create timer
+// When an answer is incorrect, subtract time from timer
+// END Event triggers when all questions are answered, or timer hits 0
+// Score Page is presented at END Event Trigger
+// Saves score to localStorage, with User Input for Initials. 
+
+
 
