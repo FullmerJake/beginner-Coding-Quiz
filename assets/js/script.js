@@ -4,6 +4,10 @@ var btn0El = document.querySelector('#btn0');
 var btn1El = document.querySelector('#btn1');
 var btn2El = document.querySelector('#btn2');
 var btn3El = document.querySelector('#btn3');
+var choice0El = document.querySelector('#choice0');
+var choice1El = document.querySelector('#choice1');
+var choice2El = document.querySelector('#choice2');
+var choice3El = document.querySelector('#choice3');
 var questionEl = document.querySelector('#question');
 
 
@@ -54,11 +58,24 @@ var score = 0;
 
 var firstQuestion = function() {
     //creates a new H2 DOM element
-    var question = document.createElement('h2');
+    var question = document.createElement('div');
     //adds the prompt from the question object as HTML to the H2 element
     question.innerHTML = "<h2>" + questions[0].prompt + "</h2>";
     //pushes the question to the question DOM element, in this case, the premade div with #question
     questionEl.appendChild(question);
+
+    // First Answer
+    choice0El.innerHTML = questions[0].answer1;
+    
+    // Second Answer
+    choice1El.innerHTML = questions[0].answerTrue;
+    
+    // Third Answer
+    choice2El.innerHTML = questions[0].answer2;
+    
+    // Fourth Answer
+    choice3El.innerHTML = questions[0].answer3;
+    
 
 }
 var secondQuestion = function() {
