@@ -83,12 +83,98 @@ var loadFirstQuestion = function() {
     questionAnswerTrue = questions[0].answerTrue;
 
 }
+var loadSecondQuestion = function() {
+
+     //adds the prompt from the question object as HTML to the H2 element
+     question.innerHTML = "<h2>" + questions[1].prompt + "</h2>";
+ 
+     // First Answer
+     choice0El.innerHTML = questions[1].answer1;
+     
+     // Second Answer
+     choice1El.innerHTML = questions[1].answerTrue;
+     btn1El.className = 'correct-answer';
+     
+     // Third Answer
+     choice2El.innerHTML = questions[1].answer2;
+     
+     // Fourth Answer
+     choice3El.innerHTML = questions[1].answer3;
+ 
+     // Logs the correct answer into a variable
+     questionAnswerTrue = questions[1].answerTrue;
+}
+var loadThirdQuestion = function() {
+
+    //adds the prompt from the question object as HTML to the H2 element
+    question.innerHTML = "<h2>" + questions[2].prompt + "</h2>";
+
+    // First Answer
+    choice0El.innerHTML = questions[2].answer1;
+    
+    // Second Answer
+    choice1El.innerHTML = questions[2].answerTrue;
+    btn1El.className = 'correct-answer';
+    
+    // Third Answer
+    choice2El.innerHTML = questions[2].answer2;
+    
+    // Fourth Answer
+    choice3El.innerHTML = questions[2].answer3;
+
+    // Logs the correct answer into a variable
+    questionAnswerTrue = questions[2].answerTrue;
+}
+var loadFourthQuestion = function() {
+
+    //adds the prompt from the question object as HTML to the H2 element
+    question.innerHTML = "<h2>" + questions[3].prompt + "</h2>";
+
+    // First Answer
+    choice0El.innerHTML = questions[3].answer1;
+    
+    // Second Answer
+    choice1El.innerHTML = questions[3].answerTrue;
+    btn1El.className = 'correct-answer';
+    
+    // Third Answer
+    choice2El.innerHTML = questions[3].answer2;
+    
+    // Fourth Answer
+    choice3El.innerHTML = questions[3].answer3;
+
+    // Logs the correct answer into a variable
+    questionAnswerTrue = questions[3].answerTrue;
+}
+var loadFifthQuestion = function() {
+
+    //adds the prompt from the question object as HTML to the H2 element
+    question.innerHTML = "<h2>" + questions[4].prompt + "</h2>";
+
+    // First Answer
+    choice0El.innerHTML = questions[4].answer1;
+    
+    // Second Answer
+    choice1El.innerHTML = questions[4].answerTrue;
+    btn1El.className = 'correct-answer';
+    
+    // Third Answer
+    choice2El.innerHTML = questions[4].answer2;
+    
+    // Fourth Answer
+    choice3El.innerHTML = questions[4].answer3;
+
+    // Logs the correct answer into a variable
+    questionAnswerTrue = questions[4].answerTrue;
+}
+
 // Creates a variable on which btn was pressed by the user. 
 var answerSelected = function(selectedBtn){
     var userAnswer = selectedBtn;
     if (userAnswer.classList.contains('correct-answer')){
         alert('Correct')
         score += 1;
+        loadSecondQuestion();
     }
     else {
         alert('Wrong');
@@ -97,10 +183,7 @@ var answerSelected = function(selectedBtn){
 }
 
 startBtnEl.addEventListener('click', loadFirstQuestion);
-// choice0El.addEventListener('click', answerSelected);
-// choice1El.addEventListener('click', answerSelected);
-// choice2El.addEventListener('click', answerSelected);
-// choice3El.addEventListener('click', answerSelected);
+
 
 // 1. Create an Array of question objects
 // 2. Display the Question and possible Answers in buttons
