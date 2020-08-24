@@ -2,6 +2,9 @@
 var startBtnEl = document.querySelector('#start');
 var timerEl = document.querySelector('#countdown');
 var feedbackEl = document.querySelector('#feedback');
+var questionContainerEl = document.querySelector('#questionContainer');
+var questionEl = document.querySelector('#question');
+var initialInputForm = document.querySelector('#score-input');
 var btn0El = document.querySelector('#btn0');
 var btn1El = document.querySelector('#btn1');
 var btn2El = document.querySelector('#btn2');
@@ -10,10 +13,11 @@ var choice0El = document.querySelector('#choice0');
 var choice1El = document.querySelector('#choice1');
 var choice2El = document.querySelector('#choice2');
 var choice3El = document.querySelector('#choice3');
-var questionEl = document.querySelector('#question');
 
-
-//creates an array of question objects.
+var score = 0;
+var questionNumber = 0;
+var timeLeft;
+// Creates an array of question objects. 
 var questions = [
     {
         // First Question
@@ -56,21 +60,15 @@ var questions = [
         answerTrue: 'Of Course Not'
     }
 ];
-var score = 0;
-var questionNumber = 0;
-var timeLeft;
 
 // Loads the First Question and possible answers to the page. 
 var firstQuestion = function() {
+    // Hides Start Btn
+    startBtnEl.style.display = 'none';
     //starts timer
     countdown();
 
-    //creates a new H2 DOM element
-    var question = document.createElement('div');
-    //adds the prompt from the question object as HTML to the H2 element
-    question.innerHTML = "<h2>" + questions[0].prompt + "</h2>";
-    //pushes the question to the question DOM element, in this case, the premade div with #question
-    questionEl.appendChild(question);
+    questionEl.textContent = questions[0].prompt;
 
     // First Answer
     choice0El.innerHTML = questions[0].answer1;
@@ -94,7 +92,7 @@ var firstQuestion = function() {
 var secondQuestion = function() {
 
      //adds the prompt from the question object as HTML to the H2 element
-     question.innerHTML = "<h2>" + questions[1].prompt + "</h2>";
+     questionEl.textContent = questions[1].prompt;
  
      // First Answer
      choice0El.innerHTML = questions[1].answer3;
@@ -118,7 +116,7 @@ var secondQuestion = function() {
 var thirdQuestion = function() {
 
      //adds the prompt from the question object as HTML to the H2 element
-     question.innerHTML = "<h2>" + questions[2].prompt + "</h2>";
+     questionEl.textContent = questions[2].prompt;
  
      // First Answer
      choice0El.innerHTML = questions[2].answerTrue;
@@ -138,7 +136,7 @@ var thirdQuestion = function() {
 var fourthQuestion = function() {
 
      //adds the prompt from the question object as HTML to the H2 element
-     question.innerHTML = "<h2>" + questions[3].prompt + "</h2>";
+     questionEl.textContent = questions[3].prompt;
  
      // First Answer
      choice0El.innerHTML = questions[3].answer3;
@@ -158,7 +156,7 @@ var fourthQuestion = function() {
 var fifthQuestion = function() {
 
      //adds the prompt from the question object as HTML to the H2 element
-     question.innerHTML = "<h2>" + questions[4].prompt + "</h2>";
+     questionEl.textContent = questions[4].prompt;
  
      // First Answer
      choice0El.innerHTML = questions[4].answer3;
@@ -178,7 +176,16 @@ var fifthQuestion = function() {
 }
 // Loads highscore scene
 var loadHighScores = function(){
-    alert('This is the end scene');
+    questionEl.textContent = "You're Score is " + score + "! Please Enter Your Initials Below";
+    initialInputForm.style.display = 'initial';
+    btn0El.className = 'submit';
+    choice0El.innerHTML = 'Submit';
+    btn1El.className = 'restart';
+    choice1El.innerHTML = 'Restart';
+    btn2El.style.display = 'none';
+    btn2El.classList.remove('correct-answer');
+    btn3El.style.display = 'none';
+
 }
 // Checks if the selected answer is correct 
 var answerSelected = function(selectedBtn){
@@ -188,11 +195,33 @@ var answerSelected = function(selectedBtn){
         score += 1;
         loadNextQuestion();
     }
+    else if (userAnswer.classList.contains('submit')){
+        //enters the score into localStorage
+        alert('You clicked on the submit btn');
+    }
+    else if (userAnswer.classList.contains('restart')){
+        //restarts to quiz start
+        //reset all DOMs to default
+        // Brings the StartBtn back.
+        startBtnEl.style.display = 'initial';
+        btn2El.style.display = 'initial'
+        btn3El.style.display = 'initial'
+        initialInputForm.style.display = 'none';
+        questionEl.textContent = 'Are You Ready to Start?';
+        choice0El.textContent = '';
+        choice1El.textContent = '';
+        choice2El.textContent = '';
+        choice3El.textContent = '';
+        
+        //reset variables to 0
+        score = 0;
+        questionNumber = 0;
+    }
     else {
         feedbackEl.textContent = 'Wrong!';
         // wrong answer subtracts 5 seconds from the timer. 
         timeLeft = timeLeft - 5;
-        return;
+        loadNextQuestion();
     }
 }
 // checks the Question Number and proceeds to the next question.
@@ -212,7 +241,7 @@ var loadNextQuestion = function(){
         break;
         // if there are no questions left, load end scene
         default:
-            loadHighScores();
+            timeLeft = 0;
         break;
     }
 }
@@ -225,19 +254,20 @@ function countdown() {
       if (timeLeft > 0) {
         timerEl.textContent = timeLeft + ' time remaining';
         timeLeft--;
-      } else {
+      } 
+      else if (timeLeft === 0){
         timerEl.textContent = '';
         clearInterval(timeInterval);
-        //loads end scene at end of coundown
         loadHighScores();
       }
     }, 1000);
   }
 
+initialInputForm.style.display = 'none';
 startBtnEl.addEventListener('click', firstQuestion);
 
 
-// Score Page is presented at END Event Trigger
+
 // Saves score to localStorage, with User Input for Initials. 
 
 

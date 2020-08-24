@@ -14,10 +14,13 @@
             <!-- creates a break -->
             <hr style="margin-bottom: 20px">
 
-            <button id="start">Start</button>
             <p id="countdown"></p>
+            <button id="start">Start</button>
 
-            <div id="question"></div>
+            <div id="questionContainer">
+                <h2 id="question">Are You Ready to Start?</h2>
+                <input type="text" id="score-input">
+            </div>
 
             <div class="buttons">
                 <button id="btn0" onclick="answerSelected(btn0)"><span id="choice0"></span></button>
