@@ -24,27 +24,27 @@ var timeLeft;
 var questions = [
     {
         // First Question
-        prompt: "Which of the following is in charge of the styling of your webpage?",
-        answer1: 'HTML',
-        answer2: 'Javascript',
-        answer3: 'Java',
-        answerTrue: 'CSS'
+        prompt: "Which method do we use in order to give localStorage a key and a value?",
+        answer1: 'localStorage.GetItem(x,y)',
+        answer2: 'localStorage.SetItem(x,y)',
+        answer3: 'localstorage.GetItem(x)',
+        answerTrue: 'localStorage.setItem(x,y)'
     },
     {
         // Second Quesiton
-        prompt: "Which of the following affects the user's ability to dynamically interact with your webpage?",
-        answer1: 'HTML3',
-        answer2: 'HTML',
-        answer3: 'CSS',
-        answerTrue: 'Javascript'
+        prompt: "How do I create a DOM element of an element already on the HTML document?",
+        answer1: 'element = document.querySelector()',
+        answer2: 'var elementEl.CreateElement()',
+        answer3: 'DOM var = ElementDOM = createEl()',
+        answerTrue: 'var elementEl = document.querySelector(#)'
     },
     {
         // Third Question
         prompt: "What symbol do we use to enter an arguement into a function?",
-        answer1: '[]',
-        answer2: '""',
-        answer3: '{}',
-        answerTrue: '()'
+        answer1: '[ ]',
+        answer2: '" "',
+        answer3: '{ }',
+        answerTrue: '( )'
     },
     {
         // Fourth Question
@@ -180,24 +180,7 @@ var fifthQuestion = function() {
 
      questionNumber++;
 }
-// Loads highscore scene
-var enterScores = function(){
-    btn2El.classList.remove('correct-answer');
-    questionEl.textContent = "You're Score is " + score + "! Please Enter Your Initials Below";
-    initialInputForm.style.display = 'initial';
-    // Hides and changes buttons to Submit and Restart Buttons
-    btn0El.className = 'submit';
-    choice0El.innerHTML = 'Submit';
-    btn1El.className = 'restart';
-    choice1El.innerHTML = 'Restart';
-    btn2El.style.display = 'none';
-    btn3El.style.display = 'none';
-    // Makes feedback disappear.
-    setInterval(function(){
-        feedbackEl.textContent = '';
-    }, 3000);
-}
-// Checks if the selected answer is correct.
+// Checks what the user selected, and if it is the correct answer where applicable
 var answerSelected = function(selectedBtn){
     var userAnswer = selectedBtn;
     if (userAnswer.classList.contains('correct-answer')){
@@ -208,9 +191,6 @@ var answerSelected = function(selectedBtn){
     //checks if the submit button was pressed.
     else if (userAnswer.classList.contains('submit')){
         enterHighScore();
-        displayHighScore();
-        btn0El.style.display = 'none';
-        initialInputForm.style.display = 'none';
     }
     //checks if the restart button was pressed.
     else if (userAnswer.classList.contains('restart')){
@@ -219,7 +199,7 @@ var answerSelected = function(selectedBtn){
     else {
         feedbackEl.textContent = 'Wrong!';
         // wrong answer subtracts 5 seconds from the timer. 
-        timeLeft = timeLeft - 5;
+        timeLeft = timeLeft - 10;
         loadNextQuestion();
     }
 }
@@ -243,6 +223,23 @@ var loadNextQuestion = function(){
             timeLeft = 0;
         break;
     }
+}
+// Loads Initial entering scene
+var enterScores = function(){
+    btn2El.classList.remove('correct-answer');
+    questionEl.textContent = "Your Score is " + score + "! Please Enter Your Initials Below";
+    initialInputForm.style.display = 'initial';
+    // Hides and changes buttons to Submit and Restart Buttons
+    btn0El.className = 'submit';
+    choice0El.innerHTML = 'Submit';
+    btn1El.className = 'restart';
+    choice1El.innerHTML = 'Restart';
+    btn2El.style.display = 'none';
+    btn3El.style.display = 'none';
+    // Makes feedback disappear.
+    setInterval(function(){
+        feedbackEl.textContent = '';
+    }, 3000);
 }
 // Resets Styling and Quiz
 var restart = function() {
@@ -275,8 +272,15 @@ var restart = function() {
 var enterHighScore = function() {
     // Get Initials
     var inputVal = initialInputForm.value;
-    // Set Initials and score to localStorage
-    localStorage.setItem(inputVal, score);
+    if (!inputVal){
+        alert('You Need to Enter an Initial');
+    }
+    else {
+        localStorage.setItem(inputVal, score);
+        displayHighScore();
+        btn0El.style.display = 'none';
+        initialInputForm.style.display = 'none';
+    }
 }
 // Checks Local Storage, Displays all other Scores
 var displayHighScore = function(){
