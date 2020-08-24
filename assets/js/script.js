@@ -4,7 +4,8 @@ var timerEl = document.querySelector('#countdown');
 var feedbackEl = document.querySelector('#feedback');
 var questionContainerEl = document.querySelector('#questionContainer');
 var questionEl = document.querySelector('#question');
-var initialInputForm = document.querySelector('#score-input');
+var initialInputForm = document.querySelector('#initial-input');
+var highScoreListEl = document.querySelector('#scores');
 var btn0El = document.querySelector('#btn0');
 var btn1El = document.querySelector('#btn1');
 var btn2El = document.querySelector('#btn2');
@@ -93,7 +94,6 @@ var firstQuestion = function() {
     questionAnswerTrue = questions[0].answerTrue;
 
     questionNumber++;
-
 }
 var secondQuestion = function() {
 
@@ -180,21 +180,24 @@ var fifthQuestion = function() {
 
      questionNumber++;
 }
-
 // Loads highscore scene
-var loadHighScores = function(){
+var enterScores = function(){
+    btn2El.classList.remove('correct-answer');
     questionEl.textContent = "You're Score is " + score + "! Please Enter Your Initials Below";
     initialInputForm.style.display = 'initial';
+    // Hides and changes buttons to Submit and Restart Buttons
     btn0El.className = 'submit';
     choice0El.innerHTML = 'Submit';
     btn1El.className = 'restart';
     choice1El.innerHTML = 'Restart';
     btn2El.style.display = 'none';
-    btn2El.classList.remove('correct-answer');
     btn3El.style.display = 'none';
-
+    // Makes feedback disappear.
+    setInterval(function(){
+        feedbackEl.textContent = '';
+    }, 3000);
 }
-// Checks if the selected answer is correct 
+// Checks if the selected answer is correct.
 var answerSelected = function(selectedBtn){
     var userAnswer = selectedBtn;
     if (userAnswer.classList.contains('correct-answer')){
@@ -202,14 +205,16 @@ var answerSelected = function(selectedBtn){
         score += 1;
         loadNextQuestion();
     }
+    //checks if the submit button was pressed.
     else if (userAnswer.classList.contains('submit')){
-        //enters the score into localStorage
-        alert('You clicked on the submit btn');
+        enterHighScore();
+        displayHighScore();
+        btn0El.style.display = 'none';
+        initialInputForm.style.display = 'none';
     }
+    //checks if the restart button was pressed.
     else if (userAnswer.classList.contains('restart')){
-        
         restart();
-
     }
     else {
         feedbackEl.textContent = 'Wrong!';
@@ -247,7 +252,9 @@ var restart = function() {
     // Hides remaining btns for start page
     btn0El.style.display = 'none';
     btn1El.style.display = 'none';
+    initialInputForm.value = '';
     initialInputForm.style.display = 'none';
+    highScoreListEl.innerHTML = '';
     
     // resets Btn labels to 0.
     questionEl.textContent = 'Are You Ready to Start?';
@@ -264,6 +271,24 @@ var restart = function() {
     btn0El.classList.remove('submit');
     btn1El.classList.remove('restart');
 }
+// Enters Score into localStorage
+var enterHighScore = function() {
+    // Get Initials
+    var inputVal = initialInputForm.value;
+    // Set Initials and score to localStorage
+    localStorage.setItem(inputVal, score);
+}
+// Checks Local Storage, Displays all other Scores
+var displayHighScore = function(){
+    questionEl.textContent = "High Scores!";
+    for (var i = 0; i < localStorage.length; i++){
+        var storedScore = document.createElement('li');
+        var key = localStorage.key(i);
+        var value = localStorage[key];
+        storedScore.textContent = key + ": " + value + " pts";
+        highScoreListEl.appendChild(storedScore);
+    };
+}
 // Timer that counts down from 60
 function countdown() {
     timeLeft = 60;
@@ -277,12 +302,10 @@ function countdown() {
       else if (timeLeft === 0){
         timerEl.textContent = '';
         clearInterval(timeInterval);
-        loadHighScores();
+        enterScores();
       }
     }, 1000);
   }
-
-
 // initializes Start Page
 initialInputForm.style.display = 'none';
 btn0El.style.display = 'none';
@@ -292,10 +315,6 @@ btn3El.style.display = 'none';
 
 // Starts the Quiz
 startBtnEl.addEventListener('click', firstQuestion);
-
-
-
-// Saves score to localStorage, with User Input for Initials. 
 
 
 
