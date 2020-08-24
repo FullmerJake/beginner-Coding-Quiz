@@ -1,4 +1,4 @@
-
+// DOM Elements
 var startBtnEl = document.querySelector('#start');
 var timerEl = document.querySelector('#countdown');
 var feedbackEl = document.querySelector('#feedback');
@@ -14,10 +14,12 @@ var choice1El = document.querySelector('#choice1');
 var choice2El = document.querySelector('#choice2');
 var choice3El = document.querySelector('#choice3');
 
+// Global Variables
 var score = 0;
 var questionNumber = 0;
 var timeLeft;
-// Creates an array of question objects. 
+
+// Question Object Array 
 var questions = [
     {
         // First Question
@@ -65,6 +67,10 @@ var questions = [
 var firstQuestion = function() {
     // Hides Start Btn
     startBtnEl.style.display = 'none';
+    btn0El.style.display = 'initial';
+    btn1El.style.display = 'initial';
+    btn2El.style.display = 'initial';
+    btn3El.style.display = 'initial';
     //starts timer
     countdown();
 
@@ -174,6 +180,7 @@ var fifthQuestion = function() {
 
      questionNumber++;
 }
+
 // Loads highscore scene
 var loadHighScores = function(){
     questionEl.textContent = "You're Score is " + score + "! Please Enter Your Initials Below";
@@ -200,22 +207,9 @@ var answerSelected = function(selectedBtn){
         alert('You clicked on the submit btn');
     }
     else if (userAnswer.classList.contains('restart')){
-        //restarts to quiz start
-        //reset all DOMs to default
-        // Brings the StartBtn back.
-        startBtnEl.style.display = 'initial';
-        btn2El.style.display = 'initial'
-        btn3El.style.display = 'initial'
-        initialInputForm.style.display = 'none';
-        questionEl.textContent = 'Are You Ready to Start?';
-        choice0El.textContent = '';
-        choice1El.textContent = '';
-        choice2El.textContent = '';
-        choice3El.textContent = '';
         
-        //reset variables to 0
-        score = 0;
-        questionNumber = 0;
+        restart();
+
     }
     else {
         feedbackEl.textContent = 'Wrong!';
@@ -224,7 +218,7 @@ var answerSelected = function(selectedBtn){
         loadNextQuestion();
     }
 }
-// checks the Question Number and proceeds to the next question.
+// checks the Question Number and proceeds to the next Question Object.
 var loadNextQuestion = function(){
     switch(questionNumber){
         case 1:
@@ -245,6 +239,31 @@ var loadNextQuestion = function(){
         break;
     }
 }
+// Resets Styling and Quiz
+var restart = function() {
+    // Brings the StartBtn back.
+    startBtnEl.style.display = 'initial';
+
+    // Hides remaining btns for start page
+    btn0El.style.display = 'none';
+    btn1El.style.display = 'none';
+    initialInputForm.style.display = 'none';
+    
+    // resets Btn labels to 0.
+    questionEl.textContent = 'Are You Ready to Start?';
+    choice0El.textContent = '';
+    choice1El.textContent = '';
+    choice2El.textContent = '';
+    choice3El.textContent = '';
+    
+    // reset variables to 0
+    score = 0;
+    questionNumber = 0;
+
+    // deletes submit and restart class from buttons for restart.
+    btn0El.classList.remove('submit');
+    btn1El.classList.remove('restart');
+}
 // Timer that counts down from 60
 function countdown() {
     timeLeft = 60;
@@ -263,7 +282,15 @@ function countdown() {
     }, 1000);
   }
 
+
+// initializes Start Page
 initialInputForm.style.display = 'none';
+btn0El.style.display = 'none';
+btn1El.style.display = 'none';
+btn2El.style.display = 'none';
+btn3El.style.display = 'none';
+
+// Starts the Quiz
 startBtnEl.addEventListener('click', firstQuestion);
 
 
